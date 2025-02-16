@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858689639966",
+    "project_id": "financial-aid-firebase",
+    "storage_bucket": "financial-aid-firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858689639966:android:ec1c83933789264967400f",
+        "android_client_info": {
+          "package_name": "com.example.financial_aid_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1xHxkmwYljQ4ANts36Z6Q8d8m9CT8bGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
