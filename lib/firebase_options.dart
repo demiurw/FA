@@ -45,14 +45,15 @@ class DefaultFirebaseOptions {
     storageBucket: 'financial-aid-firebase.firebasestorage.app',
   );
 
-  // Web configuration
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: "AIzaSyDtyW1HBHINno2seYUR7V4D7o8iFJaFT_I",
-    authDomain: "financial-aid-firebase.firebaseapp.com",
-    projectId: "financial-aid-firebase",
-    storageBucket: "financial-aid-firebase.firebasestorage.app",
-    messagingSenderId: "858689639966",
-    appId: "1:858689639966:web:cb981a66a033df5767400f",
-    measurementId: "G-XW2Z4YCLBL",
+    apiKey: 'AIzaSyDtyW1HBHINno2seYUR7V4D7o8iFJaFT_I',
+    appId: '1:858689639966:web:cb981a66a033df5767400f',
+    messagingSenderId: '858689639966',
+    projectId: 'financial-aid-firebase',
+    authDomain: 'financial-aid-firebase.firebaseapp.com',
+    storageBucket: 'financial-aid-firebase.firebasestorage.app',
+    measurementId: 'G-XW2Z4YCLBL',
   );
+
+  // Web configuration
 }

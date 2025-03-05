@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dashboard_screen.dart'; // Import your dashboard screen
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
