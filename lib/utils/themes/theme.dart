@@ -1,5 +1,5 @@
-import 'package:financial_aid_platform/utils/themes/custom_themes/elevated_button_theme.dart';
-import 'package:financial_aid_platform/utils/themes/custom_themes/text_theme.dart';
+import 'package:financial_aid_project/utils/themes/custom_themes/elevated_button_theme.dart';
+import 'package:financial_aid_project/utils/themes/custom_themes/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class TAppTheme {

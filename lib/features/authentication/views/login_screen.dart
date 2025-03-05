@@ -1,3 +1,4 @@
+import 'package:financial_aid_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'dashboard_screen.dart'; // Import your dashboard screen
 
@@ -31,16 +32,18 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Center(
+                        child: const Text(
                       "LOGIN",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: TColors.primary,
                         fontFamily:
                             'Poppins', // Make sure Poppins is in pubspec.yaml
                       ),
-                    ),
+                    )),
+
                     const SizedBox(height: 20),
                     TextFormField(
                       decoration: const InputDecoration(
@@ -78,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 15),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: TColors.primary,
                         foregroundColor: Colors.white,
                         minimumSize: const Size(double.infinity, 50),
                         shape: RoundedRectangleBorder(

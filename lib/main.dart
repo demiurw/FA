@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Financial Aid Platform',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(fontFamily: 'Poppins'), // Apply globally),
       home: HomeScreen(),
     );
   }
