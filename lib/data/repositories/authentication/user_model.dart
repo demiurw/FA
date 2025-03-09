@@ -65,8 +65,8 @@ class UserModel {
         userName: data.containsKey('UserName') ? data['UserName'] ?? '' : '',
         email: data.containsKey('Email') ? data['Email'] ?? '' : '',
         phoneNumber:
-            data.containsKey('Phone Number') ? data['Phone Number'] ?? '' : '',
-        profilePicture: data.containsKey('Profile Picture')
+            data.containsKey('PhoneNumber') ? data['PhoneNumber'] ?? '' : '',
+        profilePicture: data.containsKey('ProfilePicture')
             ? data['ProfilePicture'] ?? ''
             : '',
         role: data.containsKey('Role')

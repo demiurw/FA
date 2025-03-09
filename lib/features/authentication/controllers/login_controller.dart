@@ -20,13 +20,11 @@ class LoginController extends GetxController {
   final localStorage = GetStorage();
   final email = TextEditingController();
   final password = TextEditingController();
-  final loginFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
     email.text = localStorage.read('REMEMBER_ME_EMAIL') ?? '';
-    password.text = localStorage.read('REMEMBER_ME_PASSWORD') ??
-        ''; // show previous passwords on in entry fields on startup
+    password.text = localStorage.read('REMEMBER_ME_PASSWORD') ?? '';
     super.onInit();
   }
 
@@ -44,25 +42,19 @@ class LoginController extends GetxController {
         return;
       }
 
-      // Form Validation
-      if (!loginFormKey.currentState!.validate()) {
-        TFullScreenLoader.stopLoading();
-        return;
-      }
+      // At this point, form validation should already be handled in the widget.
+
       // Save Data if Remember Me is selected
       if (rememberMe.value) {
-        localStorage.write(
-            'REMEMBER_ME_EMAIL',
-            email.text
-                .trim()); // remmber me passsword is stored email and password here for retrieval later
+        localStorage.write('REMEMBER_ME_EMAIL', email.text.trim());
         localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
       }
 
-      // Register user using Email & Password Authentication
+      // Sign in using Email & Password Authentication
       await AuthenticationRepository.instance.loginWithEmailAndPassword(
-          email.text.trim(),
-          password.text
-              .trim()); // replace with the email and password above IT WILL BE THE ADMIN'S EMAIL AND PASSWORD
+        email.text.trim(),
+        password.text.trim(),
+      );
 
       // Fetch user details and assign to UserController
       final user = await UserController.instance.fetchUserDetails();
@@ -102,17 +94,18 @@ class LoginController extends GetxController {
 
       // Register user using Email & Password Authentication
       await AuthenticationRepository.instance.registerWithEmailAndPassword(
-          'testemail@gmail.com',
-          'Password1#'); // replace with the email and password above IT WILL BE THE ADMIN'S EMAIL AND PASSWORD
+        'testemail3@gmail.com',
+        'Password3#',
+      );
 
       // Create admin record in the Firestore
       final userRepository = Get.put(UserRepository());
       await userRepository.createUser(
         UserModel(
           id: AuthenticationRepository.instance.authUser!.uid,
-          firstName: 'CwT', //maybe this is defeault name for every admin
+          firstName: 'CwT',
           lastName: 'Admin',
-          email: 'testemail@gmail.com', //change this to email from above
+          email: 'testemail3@gmail.com',
           role: AppRole.admin,
           createdAt: DateTime.now(),
         ),

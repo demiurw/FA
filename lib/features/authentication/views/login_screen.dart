@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:financial_aid_project/routes/routes.dart';//neeeded when implementing routing
 import 'package:financial_aid_project/features/authentication/controllers/login_controller.dart';
-import 'package:financial_aid_project/utils/validators/validation.dart'; // Adjust the path as needed
+import 'package:financial_aid_project/utils/validators/validation.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // Local GlobalKey for the form
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
-    // Retrieve the LoginController instance
     final loginController = LoginController.instance;
 
     return Scaffold(
@@ -33,7 +39,7 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: Form(
-                  key: loginController.loginFormKey,
+                  key: _loginFormKey, // Use only the local key here
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,10 +125,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () async {
-                          if (loginController.loginFormKey.currentState!
-                              .validate()) {
-                            // Call login logic; inside the controller, you might navigate:
-                            // e.g., Get.offNamed(TRoutes.dashboard);
+                          if (_loginFormKey.currentState!.validate()) {
                             await loginController.emailAndPasswordSignIn();
                           }
                         },
