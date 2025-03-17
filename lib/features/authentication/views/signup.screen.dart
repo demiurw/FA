@@ -1,17 +1,19 @@
 //import 'package:financial_aid_project/features/scholarship/views/scholarship_list.dart';
 import 'package:financial_aid_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:financial_aid_project/features/authentication/controllers/signup_controller.dart';
+import 'package:financial_aid_project/routes/routes.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  SignupScreenState createState() => SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool _obscurePassword = true;
+class SignupScreenState extends State<SignupScreen> {
+  final controller = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +28,13 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: const Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: TColors.primary,
-                        fontFamily:
-                            'Poppins', // Make sure Poppins is in pubspec.yaml
-                      ),
+                  const Text(
+                    "SIGN UP",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: TColors.primary,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -56,6 +54,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 15),
                   _buildSocialLoginButtons(),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () => Get.toNamed(TRoutes.login),
+                    child: const Text("Already have an account? Login"),
+                  ),
                 ],
               ),
             ),
@@ -67,31 +70,55 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildSignupForm() {
     return Form(
-      key: _formKey,
+      key: controller.signupFormKey,
       child: Column(
         children: [
           Row(
             children: [
               Expanded(
                 child: _buildTextField(
+                  controller: controller.firstName,
                   label: "First name",
                   hintText: "Your first name",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildTextField(
+                  controller: controller.lastName,
                   label: "Last name",
                   hintText: "Your last name",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your last name';
+                    }
+                    return null;
+                  },
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
           _buildTextField(
+            controller: controller.email,
             label: "Email",
             hintText: "yourmail@gmail.com",
             icon: Icons.email,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              if (!GetUtils.isEmail(value)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
           ),
           const SizedBox(height: 12),
           _buildPasswordField(),
@@ -104,8 +131,12 @@ class _SignupScreenState extends State<SignupScreen> {
     required String label,
     required String hintText,
     IconData? icon,
+    TextEditingController? controller,
+    String? Function(String?)? validator,
   }) {
     return TextFormField(
+      controller: controller,
+      validator: validator,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
@@ -116,22 +147,34 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildPasswordField() {
-    return TextFormField(
-      obscureText: _obscurePassword,
-      decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "********",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscurePassword ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey,
+    return Obx(
+      () => TextFormField(
+        controller: controller.password,
+        obscureText: controller.hidePassword.value,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your password';
+          }
+          if (value.length < 6) {
+            return 'Password must be at least 6 characters';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: "Password",
+          hintText: "********",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          suffixIcon: IconButton(
+            icon: Icon(
+              controller.hidePassword.value
+                  ? Icons.visibility_off
+                  : Icons.visibility,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              controller.hidePassword.value = !controller.hidePassword.value;
+            },
           ),
-          onPressed: () {
-            setState(() {
-              _obscurePassword = !_obscurePassword;
-            });
-          },
         ),
       ),
     );
@@ -142,12 +185,8 @@ class _SignupScreenState extends State<SignupScreen> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            // Navigate to ScholarshipListPage
-           /* Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ScholarshipList()),
-            ); */
+          if (controller.signupFormKey.currentState!.validate()) {
+            controller.registerUser();
           }
         },
         style: ElevatedButton.styleFrom(
@@ -182,7 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               icon: const Icon(Icons.g_mobiledata),
               onPressed: () {},
-              label: const Text("Log In with Google"),
+              label: const Text("Sign Up with Google"),
             ),
           ),
         ),
@@ -200,7 +239,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               icon: const Icon(Icons.apple),
               onPressed: () {},
-              label: const Text("Log In with Apple"),
+              label: const Text("Sign Up with Apple"),
             ),
           ),
         ),

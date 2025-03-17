@@ -6,11 +6,13 @@ import 'package:financial_aid_project/utils/exceptions/firebase_exceptions.dart'
 import 'package:financial_aid_project/utils/exceptions/format_exceptions.dart';
 import 'package:flutter/services.dart';
 import 'package:financial_aid_project/routes/routes.dart';
+import 'package:financial_aid_project/data/repositories/authentication/admin_repository.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 // Firebase Auth Instance
   final _auth = FirebaseAuth.instance;
+  final _adminRepository = Get.put(AdminRepository());
 // Get Authenticated User Data
   User? get authUser => _auth.currentUser;
 
@@ -28,10 +30,18 @@ class AuthenticationRepository extends GetxController {
 
     // If the user is logged in
     if (user != null) {
-      // Navigate to the Home
-      Get.offAllNamed(TRoutes.dashboard);
+      // Check if the user is an admin
+      final isAdmin = await _adminRepository.isUserAdmin();
+
+      if (isAdmin) {
+        // Navigate to Admin Dashboard
+        Get.offAllNamed(TRoutes.adminDashboard);
+      } else {
+        // Navigate to User Dashboard
+        Get.offAllNamed(TRoutes.userDashboard);
+      }
     } else {
-      Get.offAllNamed(TRoutes.login);
+      Get.offAllNamed(TRoutes.home);
     }
   }
 
@@ -85,7 +95,7 @@ class AuthenticationRepository extends GetxController {
   Future<void> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
-      Get.offAllNamed(TRoutes.login);
+      Get.offAllNamed(TRoutes.home);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {

@@ -27,14 +27,18 @@ class TRouteMiddleware extends GetMiddleware {
 class TRouteMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    // Allow access to the login page without redirecting.
-    if (route == TRoutes.login) {
+    // Allow access to the home and login pages without redirecting
+    if (route == TRoutes.home ||
+        route == TRoutes.login ||
+        route == TRoutes.signup) {
       return null;
     }
-    // If not authenticated and not on the login page, redirect to login.
+
+    // If not authenticated and trying to access a protected route, redirect to login
     if (!AuthenticationRepository.instance.isAuthenticated) {
       return const RouteSettings(name: TRoutes.login);
     }
+
     return null;
   }
 }

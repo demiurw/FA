@@ -11,20 +11,28 @@ import 'package:url_strategy/url_strategy.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:financial_aid_project/features/authentication/controllers/login_controller.dart';
 import "package:financial_aid_project/utils/helpers/general_bindings.dart";
+import 'package:financial_aid_project/utils/scripts/create_default_admin.dart';
 
 Future<void> main() async {
-  // remove # in url
+  // Remove # in url
   setPathUrlStrategy();
 
-  //initialize GEtXStorage
+  // Initialize GetStorage
   await GetStorage.init();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .then((value) => Get.put(AuthenticationRepository()));
 
   // Register the LoginController globally
   Get.put(LoginController());
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then((value) => Get.put(AuthenticationRepository()));
+  // Create default admin account if not exists
+  // This script checks if admin exists before attempting creation
+  await DefaultAdminCreator.createDefaultAdmin();
+
   runApp(const MyApp());
 }
 
@@ -39,7 +47,7 @@ class MyApp extends StatelessWidget {
       //home: HomeScreen(),//this isnt nessasary so removed, because of initial routing below, do same for new pages
       getPages: TAppRoute.pages, //expand on this
       initialBinding: GeneralBindings(), //------------------
-      initialRoute: TRoutes.home,
+      initialRoute: TRoutes.home, // Ensure initial route is set to home
       unknownRoute: GetPage(
           name: '/page-not-found',
           page: () =>

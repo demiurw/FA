@@ -12,6 +12,31 @@ class UserModel {
   String phoneNumber;
   String profilePicture;
   AppRole role;
+
+  // Academic information (optional)
+  String? institution;
+  String? major;
+  double? gpa;
+  int? graduationYear;
+  String? academicLevel; // Undergraduate, Graduate, etc.
+
+  // Financial information (optional)
+  bool? needsFinancialAid;
+  String? financialAidStatus;
+
+  // Personal information (optional)
+  String? dateOfBirth;
+  String? nationality;
+  String? gender;
+  String? address;
+
+  // Extracurricular information (optional)
+  List<String>? activities;
+  List<String>? achievements;
+
+  // Application tracking
+  List<String>? appliedScholarships;
+
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -25,6 +50,22 @@ class UserModel {
     this.phoneNumber = '',
     this.profilePicture = '',
     this.role = AppRole.user,
+
+    // Optional fields
+    this.institution,
+    this.major,
+    this.gpa,
+    this.graduationYear,
+    this.academicLevel,
+    this.needsFinancialAid,
+    this.financialAidStatus,
+    this.dateOfBirth,
+    this.nationality,
+    this.gender,
+    this.address,
+    this.activities,
+    this.achievements,
+    this.appliedScholarships,
     this.createdAt,
     this.updatedAt,
   });
@@ -48,7 +89,25 @@ class UserModel {
       'PhoneNumber': phoneNumber,
       'ProfilePicture': profilePicture,
       'Role': role.name.toString(),
-      'CreatedAt': createdAt,
+
+      // Optional fields - only include if they have values
+      if (institution != null) 'Institution': institution,
+      if (major != null) 'Major': major,
+      if (gpa != null) 'GPA': gpa,
+      if (graduationYear != null) 'GraduationYear': graduationYear,
+      if (academicLevel != null) 'AcademicLevel': academicLevel,
+      if (needsFinancialAid != null) 'NeedsFinancialAid': needsFinancialAid,
+      if (financialAidStatus != null) 'FinancialAidStatus': financialAidStatus,
+      if (dateOfBirth != null) 'DateOfBirth': dateOfBirth,
+      if (nationality != null) 'Nationality': nationality,
+      if (gender != null) 'Gender': gender,
+      if (address != null) 'Address': address,
+      if (activities != null) 'Activities': activities,
+      if (achievements != null) 'Achievements': achievements,
+      if (appliedScholarships != null)
+        'AppliedScholarships': appliedScholarships,
+
+      'CreatedAt': createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt = DateTime.now(),
     };
   }
@@ -74,6 +133,29 @@ class UserModel {
                 ? AppRole.admin
                 : AppRole.user
             : AppRole.user,
+
+        // Optional fields
+        institution: data['Institution'],
+        major: data['Major'],
+        gpa: data['GPA'],
+        graduationYear: data['GraduationYear'],
+        academicLevel: data['AcademicLevel'],
+        needsFinancialAid: data['NeedsFinancialAid'],
+        financialAidStatus: data['FinancialAidStatus'],
+        dateOfBirth: data['DateOfBirth'],
+        nationality: data['Nationality'],
+        gender: data['Gender'],
+        address: data['Address'],
+        activities: data['Activities'] != null
+            ? List<String>.from(data['Activities'])
+            : null,
+        achievements: data['Achievements'] != null
+            ? List<String>.from(data['Achievements'])
+            : null,
+        appliedScholarships: data['AppliedScholarships'] != null
+            ? List<String>.from(data['AppliedScholarships'])
+            : null,
+
         createdAt: data.containsKey('CreatedAt')
             ? data['CreatedAt']?.toDate() ?? DateTime.now()
             : DateTime.now(),

@@ -6,7 +6,8 @@ import '../constants/colors.dart';
 import '../helpers/helper_functions.dart';
 
 class TLoaders {
-  static hideSnackBar() => ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
+  static hideSnackBar() =>
+      ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
 
   static customToast({required message}) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(
@@ -19,9 +20,14 @@ class TLoaders {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: THelperFunctions.isDarkMode(Get.context!) ? TColors.darkerGrey.withOpacity(0.9) : TColors.grey.withOpacity(0.9),
+            color: THelperFunctions.isDarkMode(Get.context!)
+                ? const Color.fromRGBO(
+                    79, 79, 79, 0.9) // darkerGrey with opacity
+                : const Color.fromRGBO(224, 224, 224, 0.9), // grey with opacity
           ),
-          child: Center(child: Text(message, style: Theme.of(Get.context!).textTheme.labelLarge)),
+          child: Center(
+              child: Text(message,
+                  style: Theme.of(Get.context!).textTheme.labelLarge)),
         ),
       ),
     );

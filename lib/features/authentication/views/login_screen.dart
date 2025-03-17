@@ -7,10 +7,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   // Local GlobalKey for the form
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
@@ -51,6 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.blue,
                           fontFamily: 'Poppins',
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Sign in to your account (Admin or User)",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
                         ),
                       ),
                       const SizedBox(height: 20),

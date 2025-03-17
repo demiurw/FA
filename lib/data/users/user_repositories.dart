@@ -29,7 +29,7 @@ class UserRepository extends GetxController {
   }
 
   /// Function to fetch user details based on user ID.
-  Future<UserModel> fetchAdminDetails() async {
+  Future<UserModel> fetchUserDetails() async {
     try {
       final docSnapsnot = await _db
           .collection('Users')

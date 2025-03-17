@@ -1,6 +1,7 @@
 import 'package:financial_aid_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:get/get.dart';
+import 'package:financial_aid_project/routes/routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                     textStyle:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed(TRoutes.signup),
                   child: Text("SIGN UP"),
                 ),
                 SizedBox(width: 15),
@@ -48,12 +49,7 @@ class HomeScreen extends StatelessWidget {
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     side: BorderSide(color: TColors.borderPrimary),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
+                  onPressed: () => Get.toNamed(TRoutes.login),
                   child: Text(
                     "LOGIN",
                     style: TextStyle(color: TColors.textBlue),
