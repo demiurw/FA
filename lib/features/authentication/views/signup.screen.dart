@@ -2,6 +2,7 @@
 import 'package:financial_aid_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:financial_aid_project/features/authentication/controllers/signup_controller.dart';
 import 'package:financial_aid_project/routes/routes.dart';
 
@@ -15,52 +16,67 @@ class SignupScreen extends StatefulWidget {
 class SignupScreenState extends State<SignupScreen> {
   final controller = Get.put(SignupController());
 
+  // Create a local form key in the view
+  final _signupFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[50],
       body: Center(
         child: SingleChildScrollView(
-          child: FractionallySizedBox(
-            widthFactor: 0.5, // Set the width to 50% of the available space
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "SIGN UP",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: TColors.primary,
-                      fontFamily: 'Poppins',
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500),
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "SIGN UP",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: TColors.primary,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Create your new account",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: TColors.textLightGray,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                _buildSignupForm(),
+                const SizedBox(height: 16),
+                _buildSignupButton(),
+                const SizedBox(height: 12),
+                const Row(
+                  children: [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text("or"),
                     ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                _buildSocialLoginButtons(),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () => Get.toNamed(TRoutes.login),
+                  style: TextButton.styleFrom(
+                    foregroundColor: TColors.primary,
                   ),
-                  const SizedBox(height: 24),
-                  _buildSignupForm(),
-                  const SizedBox(height: 16),
-                  _buildSignupButton(),
-                  const SizedBox(height: 12),
-                  const Row(
-                    children: [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("or"),
-                      ),
-                      Expanded(child: Divider()),
-                    ],
+                  child: const Text(
+                    "Already have an account? Login",
+                    style: TextStyle(fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(height: 15),
-                  _buildSocialLoginButtons(),
-                  const SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () => Get.toNamed(TRoutes.login),
-                    child: const Text("Already have an account? Login"),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -70,7 +86,7 @@ class SignupScreenState extends State<SignupScreen> {
 
   Widget _buildSignupForm() {
     return Form(
-      key: controller.signupFormKey,
+      key: _signupFormKey,
       child: Column(
         children: [
           Row(
@@ -80,6 +96,7 @@ class SignupScreenState extends State<SignupScreen> {
                   controller: controller.firstName,
                   label: "First name",
                   hintText: "Your first name",
+                  prefixIcon: EvaIcons.person,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your first name';
@@ -94,6 +111,7 @@ class SignupScreenState extends State<SignupScreen> {
                   controller: controller.lastName,
                   label: "Last name",
                   hintText: "Your last name",
+                  prefixIcon: EvaIcons.person,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your last name';
@@ -109,7 +127,7 @@ class SignupScreenState extends State<SignupScreen> {
             controller: controller.email,
             label: "Email",
             hintText: "yourmail@gmail.com",
-            icon: Icons.email,
+            prefixIcon: EvaIcons.email,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
@@ -130,6 +148,7 @@ class SignupScreenState extends State<SignupScreen> {
   Widget _buildTextField({
     required String label,
     required String hintText,
+    IconData? prefixIcon,
     IconData? icon,
     TextEditingController? controller,
     String? Function(String?)? validator,
@@ -141,7 +160,10 @@ class SignupScreenState extends State<SignupScreen> {
         labelText: label,
         hintText: hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        suffixIcon: icon != null ? Icon(icon, color: Colors.grey) : null,
+        prefixIcon: prefixIcon != null
+            ? Icon(prefixIcon, color: TColors.primary)
+            : null,
+        suffixIcon: icon != null ? Icon(icon, color: TColors.primary) : null,
       ),
     );
   }
@@ -164,12 +186,11 @@ class SignupScreenState extends State<SignupScreen> {
           labelText: "Password",
           hintText: "********",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          prefixIcon: const Icon(EvaIcons.lock, color: TColors.primary),
           suffixIcon: IconButton(
             icon: Icon(
-              controller.hidePassword.value
-                  ? Icons.visibility_off
-                  : Icons.visibility,
-              color: Colors.grey,
+              controller.hidePassword.value ? EvaIcons.eyeOff : EvaIcons.eye,
+              color: TColors.primary,
             ),
             onPressed: () {
               controller.hidePassword.value = !controller.hidePassword.value;
@@ -185,18 +206,19 @@ class SignupScreenState extends State<SignupScreen> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          if (controller.signupFormKey.currentState!.validate()) {
+          if (_signupFormKey.currentState!.validate()) {
             controller.registerUser();
           }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: TColors.primary,
+          foregroundColor: TColors.white,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: const Text(
           "SIGN UP",
-          style: TextStyle(fontSize: 16, color: Colors.white),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -211,15 +233,15 @@ class SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                side: const BorderSide(color: Colors.black12),
+                backgroundColor: TColors.white,
+                foregroundColor: TColors.black,
+                side: const BorderSide(color: TColors.grey),
                 minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              icon: const Icon(Icons.g_mobiledata),
+              icon: const Icon(EvaIcons.google),
               onPressed: () {},
               label: const Text("Sign Up with Google"),
             ),
@@ -230,8 +252,8 @@ class SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
+                backgroundColor: TColors.black,
+                foregroundColor: TColors.white,
                 minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),

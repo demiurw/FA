@@ -4,8 +4,8 @@ import 'package:financial_aid_project/utils/popups/full_screen_loader.dart';
 import 'package:financial_aid_project/utils/helpers/network_manager.dart';
 import 'package:financial_aid_project/utils/constants/image_strings.dart';
 import 'package:financial_aid_project/data/repositories/authentication/authentication_repository.dart';
-import 'package:financial_aid_project/data/users/user_repositories.dart';
-import 'package:financial_aid_project/data/repositories/authentication/user_model.dart';
+import 'package:financial_aid_project/data/repositories/users/user_repository.dart';
+import 'package:financial_aid_project/data/models/user/user_model.dart';
 import 'package:financial_aid_project/utils/popups/loaders.dart';
 import 'package:financial_aid_project/utils/constants/enums.dart';
 
@@ -21,9 +21,6 @@ class SignupController extends GetxController {
 
   // Observable for hiding/showing password
   final hidePassword = true.obs;
-
-  // Form key for validation
-  final GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
   // Repository instances
   final userRepository = Get.put(UserRepository());
@@ -76,5 +73,15 @@ class SignupController extends GetxController {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
+  }
+
+  @override
+  void onClose() {
+    // Dispose controllers when the controller is removed
+    firstName.dispose();
+    lastName.dispose();
+    email.dispose();
+    password.dispose();
+    super.onClose();
   }
 }

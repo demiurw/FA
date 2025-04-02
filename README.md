@@ -12,6 +12,7 @@ This application helps users explore and apply for scholarships and financial ai
 - Admin dashboard for managing scholarships and applications
 - Responsive UI design for web
 - Firebase integration for backend services
+- Automated web scraping for scholarship data collection
 
 ## Planned Features
 
@@ -61,6 +62,17 @@ lib/
 │   └── validators/        # Form validation logic
 ├── firebase_options.dart  # Firebase configuration
 └── main.dart              # Application entry point
+
+python_scraper/           # Python-based web scraper for scholarship data
+├── config.py             # Configuration for the scraper
+├── firebase_client.py    # Firebase integration for storing data
+├── scraper.py            # Main scraper implementation
+├── scheduler.py          # Scheduler for running the scraper periodically
+├── setup.py              # Setup helper script
+├── requirements.txt      # Python dependencies
+├── .env.example          # Example environment configuration
+├── Dockerfile            # Docker configuration for containerized deployment
+└── docker-compose.yml    # Docker Compose configuration
 ```
 
 ## Technologies Used
@@ -69,6 +81,7 @@ lib/
 - Firebase (Authentication, Firestore, Storage)
 - GetX for state management
 - Material Design components
+- Python for web scraping (Playwright, BeautifulSoup)
 
 ### Installation
 
@@ -95,6 +108,37 @@ A default admin account is automatically created during the first run with the f
 
 - Email: admin@financialaid.com
 - Password: Providence#7
+
+## Web Scraper
+
+The project includes a Python-based web scraper for collecting scholarship data:
+
+### Features
+
+- Automated collection of scholarship information from multiple websites
+- Integration with Firebase Firestore
+- Intelligent categorization of scholarships
+- Scheduled scraping with configurable intervals
+- Manual trigger via admin dashboard
+
+### Setup
+
+See the instructions in `python_scraper/README.md` for detailed setup and usage information.
+
+### Running the Scraper
+
+```bash
+cd python_scraper
+python setup.py       # First-time setup
+python scheduler.py   # Start the scheduler
+```
+
+For Docker deployment:
+
+```bash
+cd python_scraper
+docker-compose up -d
+```
 
 ## Browser Navigation
 

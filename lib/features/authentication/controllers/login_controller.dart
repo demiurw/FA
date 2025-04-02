@@ -5,7 +5,7 @@ import 'package:financial_aid_project/utils/popups/full_screen_loader.dart';
 import 'package:financial_aid_project/utils/helpers/network_manager.dart';
 import 'package:financial_aid_project/utils/constants/image_strings.dart';
 import 'package:financial_aid_project/data/repositories/authentication/authentication_repository.dart';
-import 'package:financial_aid_project/data/repositories/authentication/admin_repository.dart';
+import 'package:financial_aid_project/data/repositories/admin/admin_repository.dart';
 import 'package:financial_aid_project/utils/popups/loaders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

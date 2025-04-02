@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:financial_aid_project/data/repositories/authentication/user_model.dart';
+import 'package:financial_aid_project/data/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:financial_aid_project/utils/exceptions/platform_exceptions.dart';
 import 'package:financial_aid_project/utils/exceptions/firebase_auth_exceptions.dart';

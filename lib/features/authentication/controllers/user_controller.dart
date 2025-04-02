@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:financial_aid_project/data/users/user_repositories.dart';
-import 'package:financial_aid_project/data/repositories/authentication/user_model.dart';
+import 'package:financial_aid_project/data/repositories/users/user_repository.dart';
+import 'package:financial_aid_project/data/models/user/user_model.dart';
 import 'package:financial_aid_project/utils/popups/loaders.dart';
 
 /// Controller for managing user-related data and operations

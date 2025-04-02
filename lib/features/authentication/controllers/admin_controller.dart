@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:financial_aid_project/data/repositories/authentication/admin_model.dart';
-import 'package:financial_aid_project/data/repositories/authentication/admin_repository.dart';
+import 'package:financial_aid_project/data/models/admin/admin_model.dart';
+import 'package:financial_aid_project/data/repositories/admin/admin_repository.dart';
 import 'package:financial_aid_project/data/repositories/authentication/authentication_repository.dart';
 import 'package:financial_aid_project/utils/popups/full_screen_loader.dart';
 import 'package:financial_aid_project/utils/helpers/network_manager.dart';
@@ -25,9 +25,6 @@ class AdminController extends GetxController {
   // Password visibility
   final hidePassword = true.obs;
   final hideConfirmPassword = true.obs;
-
-  // Form key
-  final addAdminFormKey = GlobalKey<FormState>();
 
   /// Fetches the current admin details.
   Future<AdminModel> fetchAdminDetails() async {

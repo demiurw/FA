@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:financial_aid_project/data/repositories/authentication/admin_model.dart';
+import 'package:financial_aid_project/data/models/admin/admin_model.dart';
 
 /// Script to add the default admin to Firestore.
 /// This should be run only once during initial setup.

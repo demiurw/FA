@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text { font: bold 24px sans-serif; fill: #3498db; }
+    .accent { fill: #e74c3c; }
+  </style>
+  <rect width="50" height="50" x="5" y="5" rx="10" class="accent" />
+  <text x="65" y="35" class="text">Financial Aid</text>
+</svg> 

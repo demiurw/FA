@@ -9,7 +9,6 @@ import 'package:financial_aid_project/routes/app_routes.dart';
 import 'package:financial_aid_project/routes/routes.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:financial_aid_project/features/authentication/controllers/login_controller.dart';
 import "package:financial_aid_project/utils/helpers/general_bindings.dart";
 import 'package:financial_aid_project/utils/scripts/create_default_admin.dart';
 
@@ -26,8 +25,8 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
 
-  // Register the LoginController globally
-  Get.put(LoginController());
+  // LoginController is now handled in GeneralBindings
+  // Get.put(LoginController());
 
   // Create default admin account if not exists
   // This script checks if admin exists before attempting creation
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Financial Aid Platform',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Poppins"),
       //home: HomeScreen(),//this isnt nessasary so removed, because of initial routing below, do same for new pages
       getPages: TAppRoute.pages, //expand on this
       initialBinding: GeneralBindings(), //------------------

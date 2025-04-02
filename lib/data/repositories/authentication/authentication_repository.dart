@@ -6,7 +6,7 @@ import 'package:financial_aid_project/utils/exceptions/firebase_exceptions.dart'
 import 'package:financial_aid_project/utils/exceptions/format_exceptions.dart';
 import 'package:flutter/services.dart';
 import 'package:financial_aid_project/routes/routes.dart';
-import 'package:financial_aid_project/data/repositories/authentication/admin_repository.dart';
+import 'package:financial_aid_project/data/repositories/admin/admin_repository.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -88,6 +88,21 @@ class AuthenticationRepository extends GetxController {
 // EMAIL VERIFICATION
 
 //forget password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 
 //re authenticate user
 
