@@ -18,6 +18,9 @@ class ScholarshipController extends GetxController {
   // Error state
   final RxString errorMessage = ''.obs;
 
+  // Success message
+  final RxString successMessage = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -39,6 +42,94 @@ class ScholarshipController extends GetxController {
       scholarships.value = scholarshipsList;
     } catch (e) {
       errorMessage.value = 'Failed to fetch scholarships: $e';
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Create a new scholarship
+  Future<bool> createScholarship(Scholarship scholarship) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      successMessage.value = '';
+
+      // Generate a new document ID
+      final docRef =
+          FirebaseFirestore.instance.collection('scholarships').doc();
+
+      // Set ID and other properties
+      final newScholarship = scholarship.copyWith(
+        id: docRef.id,
+        scrapedDate: DateTime.now(),
+      );
+
+      // Save to Firestore
+      await docRef.set(newScholarship.toFirestore());
+
+      // Add to local list
+      scholarships.add(newScholarship);
+
+      successMessage.value = 'Scholarship created successfully';
+      return true;
+    } catch (e) {
+      errorMessage.value = 'Failed to create scholarship: ${e.toString()}';
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Update an existing scholarship
+  Future<bool> updateScholarship(Scholarship scholarship) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      successMessage.value = '';
+
+      // Save to Firestore
+      await FirebaseFirestore.instance
+          .collection('scholarships')
+          .doc(scholarship.id)
+          .update(scholarship.toFirestore());
+
+      // Update in local list
+      final index = scholarships.indexWhere((s) => s.id == scholarship.id);
+      if (index != -1) {
+        scholarships[index] = scholarship;
+      }
+
+      successMessage.value = 'Scholarship updated successfully';
+      return true;
+    } catch (e) {
+      errorMessage.value = 'Failed to update scholarship: ${e.toString()}';
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Delete a scholarship
+  Future<bool> deleteScholarship(String scholarshipId) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      successMessage.value = '';
+
+      // Delete from Firestore
+      await FirebaseFirestore.instance
+          .collection('scholarships')
+          .doc(scholarshipId)
+          .delete();
+
+      // Remove from local list
+      scholarships.removeWhere((s) => s.id == scholarshipId);
+
+      successMessage.value = 'Scholarship deleted successfully';
+      return true;
+    } catch (e) {
+      errorMessage.value = 'Failed to delete scholarship: ${e.toString()}';
+      return false;
     } finally {
       isLoading.value = false;
     }
@@ -139,5 +230,16 @@ class ScholarshipController extends GetxController {
 
     // Return up to the specified limit
     return sortedList.take(limit).toList();
+  }
+
+  /// Get available scholarship categories
+  List<String> getAvailableCategories() {
+    final Set<String> categories = {};
+
+    for (final scholarship in scholarships) {
+      categories.addAll(scholarship.categories);
+    }
+
+    return categories.toList()..sort();
   }
 }

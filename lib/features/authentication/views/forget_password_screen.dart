@@ -23,20 +23,17 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         isLoading.value = true;
-        print(
-            'Attempting to reset password for: ${_emailController.text.trim()}');
 
         await AuthenticationRepository.instance
             .resetPassword(_emailController.text.trim());
 
         isLoading.value = false;
-        print('Password reset email sent successfully');
 
         Get.snackbar(
           'Email Sent',
           'Password reset link has been sent to your email',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: TColors.success.withOpacity(0.7),
+          backgroundColor: TColors.success.withAlpha(179),
           colorText: Colors.white,
           duration: const Duration(seconds: 3),
         );
@@ -47,14 +44,26 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         });
       } catch (e) {
         isLoading.value = false;
-        print('Error resetting password: $e');
+
+        String errorMessage =
+            'Failed to send reset email. Please try again later.';
+
+        // More specific error messages based on common error cases
+        if (e.toString().contains('user-not-found')) {
+          errorMessage = 'No account found with this email address.';
+        } else if (e.toString().contains('invalid-email')) {
+          errorMessage = 'The email address is not valid.';
+        } else if (e.toString().contains('network')) {
+          errorMessage = 'Network error. Please check your connection.';
+        }
 
         Get.snackbar(
           'Error',
-          e.toString(),
+          errorMessage,
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: TColors.error.withOpacity(0.7),
+          backgroundColor: TColors.error.withAlpha(179),
           colorText: Colors.white,
+          duration: const Duration(seconds: 4),
         );
       }
     }
@@ -164,7 +173,7 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            disabledBackgroundColor: TColors.primary.withOpacity(0.5),
+            disabledBackgroundColor: TColors.primary.withAlpha(128),
           ),
           child: isLoading.value
               ? const SizedBox(

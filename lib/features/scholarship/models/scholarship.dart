@@ -99,7 +99,7 @@ class Scholarship {
     };
   }
 
-  /// Create a copy of this Scholarship with given fields replaced with new values.
+  /// Create a copy of this Scholarship with the given fields replaced with the new values.
   Scholarship copyWith({
     String? id,
     String? title,
@@ -115,7 +115,6 @@ class Scholarship {
     double? requiredGpa,
     List<String>? categories,
     DateTime? scrapedDate,
-    DateTime? lastUpdated,
   }) {
     return Scholarship(
       id: id ?? this.id,
@@ -132,7 +131,6 @@ class Scholarship {
       requiredGpa: requiredGpa ?? this.requiredGpa,
       categories: categories ?? this.categories,
       scrapedDate: scrapedDate ?? this.scrapedDate,
-      lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
 }
